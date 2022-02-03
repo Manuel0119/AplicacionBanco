@@ -5,8 +5,7 @@
  */
 package com.mycompany.aplicacionbanco;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
 
 /**
  *
@@ -14,7 +13,7 @@ import java.util.List;
  */
 public class Banco {
     private String nombre;
-    private List<Cuenta> cuentas;
+    private LinkedList<Cuenta> cuentas;
 
     /**
      *
@@ -22,7 +21,7 @@ public class Banco {
      */
     public Banco(String nombre) {
         this.nombre = nombre;
-        cuentas=new ArrayList<>();
+        cuentas=new LinkedList<>();
     }
 
     /**
@@ -37,7 +36,7 @@ public class Banco {
      *
      * @return
      */
-    public List<Cuenta> getCuentas() {
+    public LinkedList<Cuenta> getCuentas() {
         return cuentas;
     }
 
