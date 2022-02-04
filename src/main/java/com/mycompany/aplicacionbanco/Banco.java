@@ -6,10 +6,9 @@
 package com.mycompany.aplicacionbanco;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  *
@@ -25,7 +24,7 @@ public class Banco {
      */
     public Banco(String nombre) {
         this.nombre = nombre;
-        cuentas=new HashSet<>();
+        cuentas=new TreeSet<>();
     }
 
     /**
@@ -76,16 +75,13 @@ public class Banco {
      * @return Cuenta en funcion del codigo solicitado.
      */
     public Cuenta getCuenta(String codigo){
-        Cuenta c=null,aux;
-        Iterator<Cuenta> iterador=cuentas.iterator();
         
         for(Cuenta c1: cuentas){
            if(c1.getCodigo().equals(codigo)){
-               c=c1;
-               break;
+               return c1;
            } 
         }
-        return c;
+        return null;
     }
     
     /**
