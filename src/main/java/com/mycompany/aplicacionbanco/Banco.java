@@ -6,9 +6,9 @@
 package com.mycompany.aplicacionbanco;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  *
@@ -24,7 +24,7 @@ public class Banco {
      */
     public Banco(String nombre) {
         this.nombre = nombre;
-        cuentas=new HashMap<>();
+        cuentas=new TreeMap<>();
     }
 
     /**
