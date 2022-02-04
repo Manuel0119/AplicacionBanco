@@ -18,11 +18,11 @@ public class Movimiento {
     private float saldo;
 
     /**
-     *
-     * @param fecha
-     * @param tipo
-     * @param cantidad
-     * @param saldo
+     * Construye un movimiento vacio que inicializa la fecha, el tipo de movimiento, la cantidad del movimiento y el saldo actual.
+     * @param fecha Fecha en la que se realiza el movimiento.
+     * @param tipo Tipo de movimiento.
+     * @param cantidad Cantidad de dinero que se ha efectuado en el movimiento.
+     * @param saldo Saldo de la cuenta actual.
      */
     public Movimiento(LocalDate fecha, char tipo, float cantidad, float saldo) {
         this.fecha = fecha;
@@ -32,32 +32,32 @@ public class Movimiento {
     }
 
     /**
-     *
-     * @return
+     * Método que devuelve la fecha.
+     * @return Un LocalDate del movimiento.
      */
     public LocalDate getFecha() {
         return fecha;
     }
 
     /**
-     *
-     * @return
+     * Método que devuelve el tipo de movimiento.
+     * @return Tipo de movimiento que se ha realizado.
      */
     public char getTipo() {
         return tipo;
     }
 
     /**
-     *
-     * @return
+     * Método que devuelve la cantidad de dinero que se ha efectuado en el movimiento.
+     * @return Cantidad del movimiento.
      */
     public float getCantidad() {
         return cantidad;
     }
 
     /**
-     *
-     * @return
+     * Método que devuelve el saldo de la cuenta en el momento.
+     * @return Saldo de la cuenta en el momento del movimiento.
      */
     public float getSaldo() {
         return saldo;

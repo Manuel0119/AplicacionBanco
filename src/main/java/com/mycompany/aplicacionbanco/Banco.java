@@ -5,7 +5,11 @@
  */
 package com.mycompany.aplicacionbanco;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -13,36 +17,38 @@ import java.util.LinkedList;
  */
 public class Banco {
     private String nombre;
-    private LinkedList<Cuenta> cuentas;
+    private Set<Cuenta> cuentas;
 
     /**
-     *
-     * @param nombre
+     * Método que inicializa el nombre de la cuenta. Además guarda el nombre en un Hashset.
+     * @param nombre Nombre de la cuenta.
      */
     public Banco(String nombre) {
         this.nombre = nombre;
-        cuentas=new LinkedList<>();
+        cuentas=new HashSet<>();
     }
 
     /**
-     *
-     * @return
+     * Método que devuleve el nombre de la cuenta solicitada.
+     * @return Nombre de la cuenta solicitada.
      */
     public String getNombre() {
         return nombre;
     }
 
     /**
-     *
-     * @return
+     * Método que guarda las cuentas creadas en una lista (ArrayList).
+     * @return Lista de cuentas creadas.
      */
-    public LinkedList<Cuenta> getCuentas() {
-        return cuentas;
+    public List<Cuenta> getCuentas() {
+        List<Cuenta> cuenta;
+        cuenta =new ArrayList<>(cuentas);
+        return cuenta;
     }
 
     /**
-     *
-     * @param nombre
+     * Método que modifica el nombre de la cuenta solicitada.
+     * @param nombre Nombre de la cuenta.
      */
     public void setNombre(String nombre) {
         this.nombre = nombre;
@@ -54,41 +60,38 @@ public class Banco {
     }
     
     /**
-     *
-     * @param codigo
-     * @param titular
-     * @param saldo
-     * @return
+     * Método que nos permite abrir una cuenta, estableciendole un código, un titular y un saldo.
+     * @param codigo Codigo de la cuenta.
+     * @param titular Titular de la cuenta.
+     * @param saldo Saldo de la cuenta.
+     * @return Verdadero si la cuenta ha sido creada con éxito.
      */
     public boolean abrirCuenta(String codigo, String titular,float saldo){
-        boolean salida=false;
-        
-        if(buscarCuenta(codigo)==-1){
-            salida=cuentas.add(new Cuenta (codigo,titular,saldo));
-        }
-        return salida;
+        return cuentas.add(new Cuenta (codigo,titular,saldo));
     }
     
     /**
-     *
-     * @param codigo
-     * @return
+     * Método que develve la cuenta en funcion del código que se le ha solicitado.
+     * @param codigo Codigo de la cuenta.
+     * @return Cuenta en funcion del codigo solicitado.
      */
     public Cuenta getCuenta(String codigo){
-        Cuenta c=null;
-        int posicion;
+        Cuenta c=null,aux;
+        Iterator<Cuenta> iterador=cuentas.iterator();
         
-        posicion=buscarCuenta(codigo);
-        if(posicion!=-1){
-            c=cuentas.get(posicion);
+        for(Cuenta c1: cuentas){
+           if(c1.getCodigo().equals(codigo)){
+               c=c1;
+               break;
+           } 
         }
         return c;
     }
     
     /**
-     *
-     * @param codigo
-     * @return
+     * Método que permite cancelar una cuenta pasándole un codigo de cuenta concreto.
+     * @param codigo Codigo de la cuenta.
+     * @return Verdadero si la cuenta ha sido cancelada con éxito.
      */
     public boolean cancelarCuenta(String codigo){
         boolean salida=false;
@@ -102,8 +105,8 @@ public class Banco {
     }
     
     /**
-     *
-     * @return
+     * Método que devuelve el total de depositos de las cuentas creadas.
+     * @return Total de depositos de las cuentas creadas.
      */
     public float getTotalDepositos(){
         float acumulador=0;
@@ -113,16 +116,6 @@ public class Banco {
         return acumulador;
     }
     
-    private int buscarCuenta(String codigo){
-       int posicion=-1;
-       
-       for(int i=0;i<cuentas.size() && posicion==-1;i++){
-           if(cuentas.get(i).getCodigo().equals(codigo)){
-               posicion=i;
-           }
-       }
-       return posicion; 
-    }
     
     
 }

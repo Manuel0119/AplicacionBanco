@@ -57,8 +57,7 @@ public class AplicacionBanco {
                 case 2:
                     System.out.println("Operar cuenta");
                     System.out.println("Introduzca el codigo de la cuenta: ");
-                    codigo = teclado.nextLine();
-                    teclado.nextLine();
+                    codigo=teclado.nextLine();
                     cuenta1=banco.getCuenta(codigo);
                 if(cuenta1!=null){
                     do{

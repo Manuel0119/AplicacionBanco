@@ -22,10 +22,11 @@ public class Cuenta {
    List<Movimiento> movimientos;
 
     /**
-     * 
-     * @param codigo
-     * @param titular
-     * @param saldo
+     * Construye una nueva cuenta vacía, inicilizando el código, el titular y el saldo.
+     * Además, genera una lista (ArrayList) de movimientos que guarda la fecha del movimiento percibido y el saldo actual de la cuenta.
+     * @param codigo Codigo de la cuenta.
+     * @param titular Titular de la cuenta.
+     * @param saldo Saldo de la cuenta.
      */
     public Cuenta(String codigo, String titular, float saldo) {
         this.codigo = codigo;
@@ -38,42 +39,42 @@ public class Cuenta {
     }
 
     /**
-     *
-     * @return
+     * Método que devuelve el código de la cuenta solicitada.
+     * @return El código de la cuenta a buscar.
      */
     public String getCodigo() {
         return codigo;
     }
 
     /**
-     *
-     * @return
+     * Método que devuelve el titular de la cuenta solicitada.
+     * @return El titular de la cuenta.
      */
     public String getTitular() {
         return titular;
     }
 
     /**
-     *
-     * @return
+     * Método que devuelve el saldo de la cuenta solicitada.
+     * @return El saldo de la cuenta.
      */
     public float getSaldo() {
         return saldo;
     }
 
     /**
-     *
-     * @return
+     * Método que devuelve una lista con los movimentos realizados en la cuenta.
+     * @return Una lista con los movimentos realizados en la cuenta.
      */
     public List<Movimiento> getMovimientos() {
         return movimientos;
     }
 
     /**
-     * 
-     * @param desde
-     * @param hasta
-     * @return
+     * Método que permite listar los movimientos que se han realizado, añadiendo la fecha a la cual se realizó.
+     * @param desde Fecha desde que se realizó el primer movimiento.
+     * @param hasta Fecha del último movimiento.
+     * @return Una lista con los movimientos que se han realizado.
      */
     public List<Movimiento> getMovimientos(LocalDate desde, LocalDate hasta){
         List<Movimiento> salida=new ArrayList<>();
@@ -90,24 +91,24 @@ public class Cuenta {
     }
     
     /**
-     *
-     * @param codigo
+     * Método que nos permite modificar el codigo de una cuenta en particular.
+     * @param codigo Código de la cuenta.
      */
     public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
 
     /**
-     *
-     * @param titular
+     * Método que nos permite modificar el titular de una cuenta.
+     * @param titular Titular de la cuenta.
      */
     public void setTitular(String titular) {
         this.titular = titular;
     }
 
     /**
-     *
-     * @param saldo
+     * Método nos permite modificar un saldo de una cuenta en concreto.
+     * @param saldo Saldo de la cuenta.
      */
     public void setSaldo(float saldo) {
         if(saldo>=0){
@@ -146,8 +147,8 @@ public class Cuenta {
     }
     
     /**
-     * Método que permite ingresar dinero en la cuenta
-     * @param cantidad cantidad a ingresar en la cuenta
+     * Método que permite ingresar dinero en la cuenta.
+     * @param cantidad Cantidad a ingresar en la cuenta.
      */
     public void ingresar(float cantidad){
         if(cantidad>0){
@@ -160,8 +161,8 @@ public class Cuenta {
     }
     
     /**
-     *
-     * @param cantidad
+     * Método que permite reintegrar dinero en la cuenta.
+     * @param cantidad Cantidad a reintegrar en la cuenta.
      */
     public void reintegrar(float cantidad){
         if(cantidad>0 && cantidad<=saldo){
@@ -174,9 +175,10 @@ public class Cuenta {
     }
     
     /**
-     *
-     * @param destino
-     * @param cantidad
+     * Metodo que nos permite realizar una transferencia de una cantidad de dinero determinadad, desde una cuenta origen a una cuenta destino.
+     * Además, permite conocer la fecha a la cual se hizo la transferencia, añadiendo un movimiento a la cuenta a ambas cuentas.
+     * @param destino Cuenta de destino al que se le realiza la transferencia.
+     * @param cantidad Cantidad de dinero que se quiere transferir.
      */
     public void realizarTransferencia(Cuenta destino,float cantidad){
         if(cantidad>0 && cantidad<=saldo){
@@ -188,8 +190,8 @@ public class Cuenta {
     }
     
     /**
-     *
-     * @return
+     * Método que permite listar los movimientos de una cuenta concreta.
+     * @return Movimientos que se han realizado en la cuenta, incluyendo la fecha a la que se realizó el movimiento.
      */
     public String listarMovimientos(){
         StringBuilder sb=new StringBuilder();
