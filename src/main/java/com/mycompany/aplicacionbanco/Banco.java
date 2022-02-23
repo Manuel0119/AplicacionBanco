@@ -65,13 +65,12 @@ public class Banco {
      * @param saldo Saldo de la cuenta.
      * @return Verdadero si la cuenta ha sido creada con éxito.
      */
-    public boolean abrirCuenta(String codigo, String titular,float saldo){
-        boolean salida=false;
-        
-        if(!cuentas.containsKey(codigo)){
-          cuentas.put(codigo, new Cuenta(codigo,titular,saldo));
-          salida=true;
-        }
+    public boolean abrirCuenta(String codigo, String titular, float saldo) throws SaldoException {
+    boolean salida = false;
+    if (!cuentas.containsKey(codigo)) {
+        cuentas.put(codigo, new Cuenta(codigo, titular, saldo));
+        salida = true;
+    }
         return salida;
     }
     
@@ -91,8 +90,7 @@ public class Banco {
      */
     public boolean cancelarCuenta(String codigo){
         boolean salida=false;
-        
-        
+
         if(cuentas.remove(codigo)!=null){
             salida=true;
         }
@@ -111,7 +109,5 @@ public class Banco {
         }
         return acumulador;
     }
-    
-    
-    
+
 }

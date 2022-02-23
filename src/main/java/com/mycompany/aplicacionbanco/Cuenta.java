@@ -28,15 +28,16 @@ public class Cuenta implements Comparable<Cuenta>{
      * @param titular Titular de la cuenta.
      * @param saldo Saldo de la cuenta.
      */
-    public Cuenta(String codigo, String titular, float saldo) {
-        this.codigo = codigo;
-        this.titular = titular;
-        if(saldo>=0){
-            this.saldo = saldo;
+   public Cuenta(String codigo, String titular, float saldo) throws SaldoException {
+        if (saldo < 0) {
+            throw new SaldoException("Error en el saldo");
         }
-        movimientos=new ArrayList<>();
-        movimientos.add(new Movimiento(LocalDate.now(),'I',saldo,saldo));
-    }
+            this.codigo = codigo;
+            this.titular = titular;
+            this.saldo = saldo;
+        movimientos = new ArrayList<>();
+        movimientos.add(new Movimiento(LocalDate.now(), 'I', saldo, saldo));
+        }
 
     /**
      * Método que devuelve el código de la cuenta solicitada.
@@ -110,10 +111,11 @@ public class Cuenta implements Comparable<Cuenta>{
      * Método nos permite modificar un saldo de una cuenta en concreto.
      * @param saldo Saldo de la cuenta.
      */
-    public void setSaldo(float saldo) {
-        if(saldo>=0){
-            this.saldo = saldo;
-        }
+    public void setSaldo(float saldo) throws SaldoException {
+    if (saldo >= 0) {
+        throw new SaldoException("Error en el saldo");
+    }
+        this.saldo = saldo;
     }
 
     @Override
@@ -151,27 +153,27 @@ public class Cuenta implements Comparable<Cuenta>{
      * @param cantidad Cantidad a ingresar en la cuenta.
      */
     public void ingresar(float cantidad){
-        if(cantidad>0){
-            saldo+=cantidad;
-            movimientos.add(new Movimiento(LocalDate.now(),'I',cantidad,saldo));
+        if(cantidad<0){
+           throw new IllegalArgumentException("La cantidad a ingresar debe ser positiva");
         }
-        else{
-            System.out.println("No se ha podido ingresar");
-        }
+        saldo+=cantidad;
+        movimientos.add(new Movimiento(LocalDate.now(),'I',cantidad,saldo));
     }
     
     /**
      * Método que permite reintegrar dinero en la cuenta.
      * @param cantidad Cantidad a reintegrar en la cuenta.
      */
-    public void reintegrar(float cantidad){
-        if(cantidad>0 && cantidad<=saldo){
-            saldo-=cantidad;
-            movimientos.add(new Movimiento(LocalDate.now(),'R',-cantidad,saldo));
+    public void reintegrar(float cantidad)throws SaldoException{
+        if(cantidad>saldo){
+           throw new SaldoException("Saldo Insuficiente");
         }
-        else{
-            System.out.println("No se ha podido ingresar");
+        if(cantidad<0){
+           throw new IllegalArgumentException("La cantidad a ingresar debe ser positiva");
         }
+        saldo-=cantidad;
+        movimientos.add(new Movimiento(LocalDate.now(),'R',-cantidad,saldo));
+        
     }
     
     /**
@@ -180,13 +182,17 @@ public class Cuenta implements Comparable<Cuenta>{
      * @param destino Cuenta de destino al que se le realiza la transferencia.
      * @param cantidad Cantidad de dinero que se quiere transferir.
      */
-    public void realizarTransferencia(Cuenta destino,float cantidad){
-        if(cantidad>0 && cantidad<=saldo){
-            saldo-=cantidad;
-            destino.saldo+=cantidad;
-            movimientos.add(new Movimiento(LocalDate.now(),'T',-cantidad,saldo));
-            destino.movimientos.add(new Movimiento(LocalDate.now(),'T',cantidad,destino.saldo));
+    public void realizarTransferencia(Cuenta destino,float cantidad) throws SaldoException{
+        if(cantidad>saldo){
+           throw new SaldoException("Saldo Insuficiente");
         }
+        if(cantidad<0){
+           throw new IllegalArgumentException("La cantidad a ingresar debe ser positiva");
+        }
+        saldo-=cantidad;
+        destino.saldo+=cantidad;
+        movimientos.add(new Movimiento(LocalDate.now(),'T',-cantidad,saldo));
+        destino.movimientos.add(new Movimiento(LocalDate.now(),'T',cantidad,destino.saldo));
     }
     
     /**

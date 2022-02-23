@@ -5,6 +5,7 @@
  */
 package com.mycompany.aplicacionbanco;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class AplicacionBanco {
      */
     public static void main(String[] args) {
         Banco banco=new Banco("Banco Sauces");
-        int opcion,opcion2;
+        int opcion=0,opcion2=0;
         Scanner teclado = new Scanner(System.in);
         String codigo;
         String titular;
@@ -27,6 +28,7 @@ public class AplicacionBanco {
         float saldo;
         float cantidad;
         Cuenta cuenta1,cuenta2;
+        boolean correcto;
         
         do{
             System.out.println("1. Abrir cuenta");
@@ -36,8 +38,13 @@ public class AplicacionBanco {
             System.out.println("5. Consultar total depositos");
             System.out.println("0. Salir");
             System.out.println("Introduzca una opcion: ");
-            opcion=teclado.nextInt();
-            teclado.nextLine();
+            try {
+                opcion = teclado.nextInt();
+            } catch (InputMismatchException ime) {
+                System.out.println(ime.getMessage());
+            } finally{
+                teclado.nextLine();
+            }
             switch(opcion){
                 case 1:
                     System.out.println("Abrir cuenta");
@@ -48,11 +55,15 @@ public class AplicacionBanco {
                     System.out.println("Introduca el saldo de la cuenta: ");
                     saldo = teclado.nextFloat();
                     teclado.nextLine();
-                    if(banco.abrirCuenta(codigo, titular, saldo)) {
-                        System.out.println("Cuenta creada con éxito");
-                    }else {
-                        System.out.println("No se ha posido crear la cuenta");
-                    }
+                        try {
+                            if (banco.abrirCuenta(codigo, titular, saldo)) {
+                                System.out.println("Cuenta creada con éxito");
+                            } else {
+                                System.out.println("No se ha posido crear la cuenta");
+                            }
+                        } catch (SaldoException ex) {
+                            System.out.println(ex.getMessage());
+                        }
                     break;
                 case 2:
                     System.out.println("Operar cuenta");
@@ -69,24 +80,42 @@ public class AplicacionBanco {
                         System.out.println("5. Consultar movimientos");
                         System.out.println("0. Salir");
                         System.out.println("Introduzca una opcion: ");
-                        opcion2=teclado.nextInt();
-                        teclado.nextLine();
+                        
+                        do{
+                            correcto=true;
+                            try{
+                                opcion2=teclado.nextInt();
+                            }catch(InputMismatchException ime){
+                                System.out.println("Entero");
+                                correcto=false;
+                            } finally{
+                                teclado.nextLine();
+                            }
+                        }while(!correcto);
                         switch(opcion2){
                             case 1:
                                 System.out.println("INGRESO DE DINERO");
                                 System.out.println("Introduca la cantidad a ingresar");
                                 cantidad=teclado.nextFloat();
                                 teclado.nextLine();
+                                try{
                                 cuenta1.ingresar(cantidad);
                                 System.out.println("Saldo actual: "+cuenta1.getSaldo());
+                                }catch(IllegalArgumentException iae){
+                                    System.out.println(iae.getMessage());
+                                }
                                 break;
                             case 2:
                                 System.out.println("RETIRADA DE DINERO");
                                 System.out.println("Introduzca la cantidad a retirar");
                                 cantidad=teclado.nextFloat();
                                 teclado.nextLine();
-                                cuenta1.reintegrar(cantidad);
-                                System.out.println("Saldo actual: "+cuenta1.getSaldo());
+                                try {
+                                    cuenta1.reintegrar(cantidad);
+                                    System.out.printf("Saldo: &d\n",cuenta1.getSaldo());
+                                } catch (SaldoException | IllegalArgumentException ex) {
+                                    System.out.println(ex.getMessage());
+                                }
                                 break;
                             case 3: 
                                 System.out.println("CONSULTAR SALDO");
@@ -101,9 +130,13 @@ public class AplicacionBanco {
                                 teclado.nextLine();
                                 cuenta2=banco.getCuenta(codigo);
                                 if(cuenta2!=null && !cuenta1.equals(cuenta2)){
-                                    cuenta1.realizarTransferencia(cuenta2, cantidad);
-                                    System.out.println("Saldo de la cuenta actual: "+cuenta1.getSaldo());
-                                    teclado.nextLine();  
+                                    try {
+                                        cuenta1.realizarTransferencia(cuenta2, cantidad);
+                                    } catch (SaldoException | IllegalArgumentException ex) {
+                                        System.out.println(ex.getMessage());
+                                    }
+                                        System.out.println("Saldo de la cuenta actual: "+cuenta1.getSaldo());
+                                        teclado.nextLine();  
                                 }
                                 else{
                                      System.out.println("No existe la cuenta de destino");       
