@@ -25,7 +25,7 @@ public class AplicacionBanco {
         String codigo;
         String titular;
         List<Cuenta> listado;
-        float saldo;
+        float saldo=0;
         float cantidad;
         Cuenta cuenta1,cuenta2;
         boolean correcto;
@@ -53,8 +53,17 @@ public class AplicacionBanco {
                     System.out.println("Introduzca el titular de la cuenta: ");
                     titular = teclado.nextLine();
                     System.out.println("Introduca el saldo de la cuenta: ");
-                    saldo = teclado.nextFloat();
-                    teclado.nextLine();
+                    do{
+                        correcto=true;
+                        try{
+                            saldo=teclado.nextFloat();
+                        }catch(InputMismatchException ime){
+                            System.out.println("Error en el saldo");
+                            correcto=false;
+                        } finally{
+                            teclado.nextLine();
+                        }
+                    }while(!correcto);
                         try {
                             if (banco.abrirCuenta(codigo, titular, saldo)) {
                                 System.out.println("Cuenta creada con éxito");
